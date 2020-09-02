@@ -1,4 +1,4 @@
-# dotnet.webapi.TodoApi
+# dotnetcore.webapi.TodoApi
 modified TEMPLATE / EXAMPLE FROM https://docs.microsoft.com/en-us/aspnet/core/tutorials/first-web-api
 played with Controllers
   added TodoItemDTOesController and TodoItemDtosController, in addition to existing TodoItemsController
