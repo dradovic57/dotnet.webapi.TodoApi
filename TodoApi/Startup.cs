@@ -49,6 +49,9 @@ namespace TodoApi
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
+
             //THE FOLLOWING CODE IS FOR HAVING Swagger IN THE APPLICATION *****************************************************2nd PART
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();
