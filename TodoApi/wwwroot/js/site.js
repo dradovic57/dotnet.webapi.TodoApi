@@ -2,9 +2,16 @@
 let todos = [];
 
 function getItems() {
-    fetch(uri)
+    fetch(uri, {
+        method: 'GET',                                          //ADDED BY dr FOR "fetch init" LEARNING PURPOSES
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
+    })
         .then(response => response.json())
         .then(data => _displayItems(data))
+        .then(data => console.log(data))                        //ADDED BY dr FOR "promise" LEARNING PURPOSES
         .catch(error => console.error('Unable to get items.', error));
 }
 
@@ -34,14 +41,18 @@ function addItem() {
 
 function deleteItem(id) {
     fetch(`${uri}/${id}`, {
-        method: 'DELETE'
+        method: 'DELETE',
+        headers: {                                                  //ADDED BY dr FOR "fetch init" LEARNING PURPOSES
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
     })
         .then(() => getItems())
         .catch(error => console.error('Unable to delete item.', error));
 }
 
 function displayEditForm(id) {
-    const item = todos.find(item => item.id === id);
+    const item = todos.find(item => item.id === id);                                //dr: RETRIEVED DATA
 
     document.getElementById('edit-name').value = item.name;
     document.getElementById('edit-id').value = item.id;
@@ -83,7 +94,7 @@ function _displayCount(itemCount) {
     document.getElementById('counter').innerText = `${itemCount} ${name}`;
 }
 
-function _displayItems(data) {
+function _displayItems(data) {                                  //dr: BUILDING PRESENTATION TABLE WITH ACTIONS FROM LIST OF ITEMS
     const tBody = document.getElementById('todos');
     tBody.innerHTML = '';
 
@@ -91,7 +102,7 @@ function _displayItems(data) {
 
     const button = document.createElement('button');
 
-    data.forEach(item => {
+    data.forEach(item => {                                                          //dr: ITERATING
         let isCompleteCheckbox = document.createElement('input');
         isCompleteCheckbox.type = 'checkbox';
         isCompleteCheckbox.disabled = true;
@@ -99,13 +110,13 @@ function _displayItems(data) {
 
         let editButton = button.cloneNode(false);
         editButton.innerText = 'Edit';
-        editButton.setAttribute('onclick', `displayEditForm(${item.id})`);
+        editButton.setAttribute('onclick', `displayEditForm(${item.id})`);          //dr: WOW ... ON THE FLY
 
         let deleteButton = button.cloneNode(false);
         deleteButton.innerText = 'Delete';
         deleteButton.setAttribute('onclick', `deleteItem(${item.id})`);
 
-        let tr = tBody.insertRow();
+        let tr = tBody.insertRow();                                                 //dr: COMPOSING ROWS
 
         let td1 = tr.insertCell(0);
         td1.appendChild(isCompleteCheckbox);
@@ -122,4 +133,5 @@ function _displayItems(data) {
     });
 
     todos = data;
+    return data;                    //ADDED BY dr FOR "promise" LEARNING PURPOSES
 }
